@@ -1,4 +1,4 @@
-package ru.project.library_web.controllers;
+package ru.project.library_web.controllers.api;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
