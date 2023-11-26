@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Детализация Категории</title>
+
+    <!-- Подключение Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<!--Часть header-->
+<header class="p-3 text-bg-dark">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+            </a>
+
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="#" class="nav-link px-2 text-secondary">Главная страница</a></li>
+                <li><a href="#" class="nav-link px-2 text-white">Каталог</a></li>
+                <li><a href="#" class="nav-link px-2 text-white">О нас</a></li>
+            </ul>
+
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Поиск..." aria-label="Поиск">
+            </form>
+
+            <div class="text-end">
+                <button type="button" class="btn btn-outline-light me-2">Вход</button>
+                <button type="button" class="btn btn-warning">Регистрация</button>
+            </div>
+        </div>
+    </div>
+</header>
+<!--Часть main-->
+<!-- Часть main -->
+<div class="container mt-4">
+    <h1>Детализация категории</h1>
+    <div class="card mt-4">
+        <div id="categoryInfo" class="collapse show">
+            <div class="card-body">
+                <h3>Название: <span th:text="${selectedCategory.name}"></span></h3>
+                <!-- Вывод книг в категории -->
+                <h4>Список книг:</h4>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Название</th>
+                        <th>Автор(ы)</th>
+                        <th>Издатель</th>
+                        <th>Год издания</th>
+                        <!-- Добавьте другие колонки, если необходимо -->
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="book : ${selectedCategory.books}">
+                        <td th:text="${book.title}"></td>
+                        <!-- Вывод списка авторов в виде строки -->
+                        <td>
+                            <span th:each="author : ${book.authors}" th:text="${author.fullName()}"></span>
+                        </td>
+                        <td th:text="${book.publisher.name}"></td>
+                        <td th:text="${book.publication_year}"></td>
+                        <!-- Добавьте другие ячейки, если необходимо -->
+                    </tr>
+                    </tbody>
+                </table>
+                <!-- Кнопка добавления книг в категорию -->
+                <a th:href="@{'/addBook?categoryId=' + ${selectedCategory.id}}" class="btn btn-primary">Добавить книгу</a>
+            </div>
+        </div>
+    </div>
+    <!-- Buttons for editing and deleting category -->
+    <a th:href="@{'/editCategory/' + ${selectedCategory.id}}" class="btn btn-warning">Редактировать категорию</a>
+    <a th:href="@{'/deleteCategory/' + ${selectedCategory.id}}" class="btn btn-danger">Удалить категорию</a>
+</div>
+<!--Часть footer-->
+<div class="container">
+    <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 my-5 border-top">
+        <div class="col mb-3">
+            <a href="/" class="d-flex align-items-center mb-3 link-body-emphasis text-decoration-none">
+                <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+            </a>
+            <p class="text-body-secondary">© 2023</p>
+        </div>
+
+        <div class="col mb-3">
+
+        </div>
+
+        <div class="col mb-3">
+            <h5>Информация о сайте</h5>
+            <ul class="nav flex-column">
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Наш адрес</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">О компании</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Наша поддержка</a></li>
+            </ul>
+        </div>
+
+        <div class="col mb-3">
+            <h5>Возможности</h5>
+            <ul class="nav flex-column">
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Контакты</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Вопросы и ответы</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Правила сайта</a></li>
+            </ul>
+        </div>
+    </footer>
+</div>
+<!-- Подключение Bootstrap JS и Popper.js (если необходимо) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
