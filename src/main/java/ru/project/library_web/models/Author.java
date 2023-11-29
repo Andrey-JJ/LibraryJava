@@ -34,6 +34,4 @@ public class Author {
     public String fullName() {
         return lastname+" "+firstname+" "+midname;
     }
-
-
 }

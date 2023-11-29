@@ -11,17 +11,18 @@
 <!-- Часть main -->
 <main>
     <div class="container mt-4">
-        <div th:each="category : ${categories}">
+        <!-- Loop through categories -->
+        <div th:each="publisher : ${publishers}">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 th:text="${category.name}"></h4>
-                <a th:href="@{/categories/details/{id}(id=${category.id})}" class="btn btn-primary">Подробнее</a>
-                <button class="btn btn-link" data-bs-toggle="collapse" th:data-bs-target="'#category-' + ${category.id}" aria-expanded="true" aria-controls="'category-' + ${category.id}">
+                <h4 th:text="${publisher.name}"></h4>
+                <a th:href="@{/publishers/details/{id}(id=${publisher.id})}" class="btn btn-primary">Подробнее</a>
+                <button class="btn btn-link" data-bs-toggle="collapse" th:data-bs-target="'#publisher-' + ${publisher.id}" aria-expanded="true" aria-controls="'publisher-' + ${publisher.id}">
                     <span class="collapse-icon">&#9660;</span>
                 </button>
             </div>
-            <div th:id="'category-' + ${category.id}" class="collapse show">
+            <div th:id="'publisher-' + ${publisher.id}" class="collapse show">
                 <div class="row">
-                    <div th:each="book : ${category.books}" class="col-md-3 mb-4">
+                    <div th:each="book : ${publisher.books}" class="col-md-3 mb-4">
                         <div class="card border-0">
                             <img th:src="@{/images/{imagePath}(imagePath=${book.image})}" class="card-img-top mx-auto" alt="Book Image" style="width: 200px; height: 310px; object-fit: cover;">
                             <div class="card-body text-center">

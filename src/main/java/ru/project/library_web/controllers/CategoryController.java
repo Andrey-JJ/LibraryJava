@@ -14,7 +14,7 @@ import java.util.Optional;
 @Controller
 public class CategoryController {
     @Autowired
-    CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
 
     @GetMapping("/main")
     public String getCategories(Model model){

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Детализация Категории</title>
+    <title>Детализация Издателя</title>
     <!-- Подключение Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -16,33 +16,31 @@
         <div class="card mt-4 border-0">
             <div id="categoryInfo" class="collapse show">
                 <div class="card-body">
-                    <h3>Название: <span th:text="${selectedCategory.name}"></span></h3>
+                    <h3>Название: <span th:text="${selectedPublisher.name}"></span></h3>
                     <h4>Список книг:</h4>
                     <table class="table">
                         <thead>
                         <tr>
                             <th>Название</th>
-                            <th>Издатель</th>
+                            <th>Категория</th>
                             <th>Год издания</th>
-                            <th></th>
                             <!--Добавьте другие колонки, если необходимо -->
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="book : ${selectedCategory.books}">
+                        <tr th:each="book : ${selectedPublisher.books}">
                             <td th:text="${book.title}"></td>
-                            <td th:text="${book.publisher.name}"></td>
+                            <td th:text="${book.category.name}"></td>
                             <td th:text="${book.publication_year}"></td>
-                            <td><a th:href="@{/books/details/{id}(id=${book.id})}" class="btn btn-primary">Подробнее о книге</a></td>
                         </tr>
                         </tbody>
                     </table>
-                    <a th:href="@{'/addBook?categoryId=' + ${selectedCategory.id}}" class="btn btn-primary">Добавить книгу в категорию</a>
+                    <a th:href="@{'/addBook?publisherId=' + ${selectedPublisher.id}}" class="btn btn-primary">Добавить книгу</a>
                 </div>
             </div>
         </div>
-        <a th:href="@{'/categories/edit/' + ${selectedCategory.id}}" class="btn btn-warning">Редактировать категорию</a>
-        <a th:href="@{'/categories/delete/' + ${selectedCategory.id}}" class="btn btn-danger">Удалить категорию</a>
+        <a th:href="@{'/publishers/edit/' + ${selectedPublisher.id}}" class="btn btn-warning">Редактировать категорию</a>
+        <a th:href="@{'/publishers/delete/' + ${selectedPublisher.id}}" class="btn btn-danger">Удалить категорию</a>
     </div>
 </main>
 <!--Часть footer-->
