@@ -59,4 +59,18 @@ public class Book {
     @JsonBackReference
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CopyBook> copyBooks;
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", publisher=" + publisher +
+                ", publication_year=" + publication_year +
+                ", volume=" + volume +
+                ", image='" + image + '\'' +
+                ", description='" + description + '\'' +
+                ", category=" + category +
+                '}';
+    }
 }

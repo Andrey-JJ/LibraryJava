@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Удаление Статуса</title>
 </head>
 <body>
-
+<!-- Часть header -->
+<th:block th:replace="main/header :: header"></th:block>
+<!-- Часть main -->
+<h2 class="mt-5">Удаление Статуса</h2>
+<p class="mb-3">Вы действительно хотите удалить статус - "<span th:text="${status.name}"></span>"?</p>
+<form action="#" th:action="@{/statuses/delete/{id}(id=${status.id})}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+    <input type="hidden" name="_method" value="post" />
+    <button type="submit" class="btn btn-danger">Удалить</button>
+    <a href="/statuses/main" class="btn btn-secondary">Отмена</a>
+</form>
+<!--Часть footer-->
+<th:block th:replace="main/footer :: footer"></th:block>
+<!--Часть scripts-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>

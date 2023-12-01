@@ -1,16 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${selectedBook.title}">Детализация</title>
-    <!-- Подключение Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Каталог книг</title>
 </head>
 <body>
-<!-- Часть header -->
+<!--Часть header-->
 <th:block th:replace="main/header :: header"></th:block>
-<!-- Часть main -->
+<!--Часть main-->
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-6">
@@ -23,8 +21,7 @@
                 <a th:href="@{/publishers/details/{id}(id=${selectedBook.publisher.id})}" th:text="${selectedBook.publisher.name}"></a>
                 | <span th:text="${selectedBook.publication_year}"></span>
             </h5>
-            <!-- Блок для вывода авторов в строку -->
-            <h5>Авторы: <span th:each="author, iterStat : ${selectedBook.authors}" th:text="${author.shortName()} + ( ${iterStat.last} ? '' : ', ' )"></span></h5>
+            <h5>Авторы: <span th:each="author, iterStat : ${selectedBook.authors}" th:text="${author.toString()} + ( ${not iterStat.last} ? ',' : '')"></span></h5>
             <h5>
                 Категория:
                 <a th:href="@{/categories/details/{id}(id=${selectedBook.category.id})}" th:text="${selectedBook.category.name}"></a>
@@ -36,6 +33,6 @@
 <!--Часть footer-->
 <th:block th:replace="main/footer :: footer"></th:block>
 <!--Часть скриптов-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>

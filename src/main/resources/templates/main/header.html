@@ -1,18 +1,32 @@
-<header class="p-3 text-bg-dark">
+<header class="p-3 bg-dark text-white">
   <div class="container">
-    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+    <div class="d-flex flex-wrap align-items-center justify-content-between">
       <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
         <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
       </a>
 
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="/" class="nav-link px-2 text-secondary">Главная страница</a></li>
-        <li><a href="/books" class="nav-link px-2 text-white">Каталог</a></li>
-        <li><a href="/about" class="nav-link px-2 text-white">О нас</a></li>
+        <li class="nav-item"><a href="/" class="nav-link px-2 text-white">Главная страница</a></li>
+        <li class="nav-item"><a href="/books/main" class="nav-link px-2 text-white">Каталог</a></li>
+        <li class="nav-item"><a href="/about" class="nav-link px-2 text-white">О нас</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Список таблиц</a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item text-black" href="/categories/main">Категории</a></li>
+            <li><a class="dropdown-item text-black" href="/authors/main">Авторы</a></li>
+            <li><a class="dropdown-item text-black" href="/publishers/main">Издатели</a></li>
+            <li><a class="dropdown-item text-black" href="/statuses/main">Статусы</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-black" href="/readers/main">Читатели</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-black" href="/bookings/main">Бронирование</a></li>
+            <li><a class="dropdown-item text-black" href="/loan/main">Выдача</a></li>
+          </ul>
+        </li>
       </ul>
 
       <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-        <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Поиск..." aria-label="Поиск">
+        <input type="search" class="form-control form-control-dark" placeholder="Поиск..." aria-label="Поиск">
       </form>
 
       <div class="text-end">

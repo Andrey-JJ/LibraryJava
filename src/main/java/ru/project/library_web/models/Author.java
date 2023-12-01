@@ -25,13 +25,13 @@ public class Author {
     @Column(name = "midname")
     private String midname;
 
-    @ManyToMany(mappedBy = "authors")
+    //Список авторов книги
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "book_author", joinColumns = @JoinColumn(name = "author_id"), inverseJoinColumns = @JoinColumn(name = "book_id"))
     private List<Book> books;
 
-    public String shortName() {
-        return lastname + " " + firstname.substring(0,1) + " " + midname.substring(0,1);
-    }
-    public String fullName() {
+    @Override
+    public String toString() {
         return lastname+" "+firstname+" "+midname;
     }
 }

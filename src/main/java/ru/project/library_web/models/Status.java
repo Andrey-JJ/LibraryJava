@@ -1,9 +1,6 @@
 package ru.project.library_web.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -13,9 +10,15 @@ import lombok.*;
 @Table(name = "status")
 public class Status {
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = true)
     private Long id;
 
     @Column(name = "name")
     private String name;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

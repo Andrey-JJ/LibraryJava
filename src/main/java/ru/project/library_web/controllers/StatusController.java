@@ -3,9 +3,7 @@ package ru.project.library_web.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.project.library_web.models.Status;
 import ru.project.library_web.repositories.StatusRepository;
 
@@ -34,5 +32,52 @@ public class StatusController {
         }
         model.addAttribute("selectedStatus", status.get());
         return "status/details";
+    }
+
+    @GetMapping("/new")
+    public String addNewStatus(Model model){
+        model.addAttribute("status", new Status());
+        return "status/add";
+    }
+
+    @PostMapping("/new")
+    public String addNewStatus(@ModelAttribute Status status, Model model){
+        statusRepository.save(status);
+        return "redirect:/statuses/main";
+    }
+
+    @GetMapping("/update/{id}")
+    public String editStatus(Model model, @PathVariable("id") Long id){
+        Optional<Status> status = statusRepository.findById(id);
+        if (status.isEmpty())
+            return "redirect:/statuses/main";
+        model.addAttribute("status", status);
+        return "status/edit";
+    }
+
+    @PostMapping("/update")
+    public String editStatus(@ModelAttribute Status status, Model model){
+        statusRepository.save(status);
+        return "redirect:/statuses/main";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteStatus(Model model, @PathVariable("id") Long id){
+        Optional<Status> status = statusRepository.findById(id);
+        if (status.isEmpty()) {
+            return "redirect:/statuses/main";
+        }
+        model.addAttribute("status", status.get());
+        return "status/delete";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteStatus(@PathVariable("id") Long id) {
+        // Проверка существования статуса перед удалением
+        Optional<Status> status = statusRepository.findById(id);
+        if (status.isPresent()) {
+            statusRepository.deleteById(id);
+        }
+        return "redirect:/statuses/main";
     }
 }
