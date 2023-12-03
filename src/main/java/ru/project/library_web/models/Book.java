@@ -24,7 +24,7 @@ public class Book {
 
     //Издатель
     @ManyToOne
-    @JoinColumn(name = "publisher_id")
+    @JoinColumn(name = "publisher_id", nullable = true)
     @JsonManagedReference
     private Publisher publisher;
 
@@ -46,7 +46,7 @@ public class Book {
 
     //Категория книги
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = true)
     @JsonManagedReference
     private Category category;
 

@@ -9,14 +9,16 @@
 <!-- Часть header -->
 <th:block th:replace="main/header :: header"></th:block>
 <!-- Часть main -->
-<h2 class="mt-5">Удаление Статуса</h2>
-<p class="mb-3">Вы действительно хотите удалить статус - "<span th:text="${status.name}"></span>"?</p>
-<form action="#" th:action="@{/statuses/delete/{id}(id=${status.id})}" method="post">
-    <input type="hidden" th:field="*{id}"/>
-    <input type="hidden" name="_method" value="post" />
-    <button type="submit" class="btn btn-danger">Удалить</button>
-    <a href="/statuses/main" class="btn btn-secondary">Отмена</a>
-</form>
+<main>
+    <h2 class="mt-5">Удаление статуса</h2>
+    <p class="mb-3">Вы действительно хотите удалить статус - "<span th:text="${status.name}"></span>"?</p>
+    <form action="#" th:action="@{/statuses/delete/{id}(id=${status.id})}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" name="_method" value="post" />
+        <button type="submit" class="btn btn-danger">Удалить</button>
+        <a href="/statuses/main" class="btn btn-secondary">Отмена</a>
+    </form>
+</main>
 <!--Часть footer-->
 <th:block th:replace="main/footer :: footer"></th:block>
 <!--Часть scripts-->

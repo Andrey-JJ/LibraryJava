@@ -9,17 +9,19 @@
 <!-- Часть header -->
 <th:block th:replace="main/header :: header"></th:block>
 <!-- Часть main -->
-<h2 class="mt-5">Редактирование статуса</h2>
-<form action="#" th:action="@{/statuses/update}" method="post" th:object="${status}">
-    <input type="hidden" name="_method" value="post" />
-    <div class="mb-3">
-        <input type="hidden" th:field="*{id}"/>
-        <label for="name" class="form-label">Название:</label>
-        <input type="text" id="name" name="name" class="form-control" th:field="*{name}" required />
-    </div>
-    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
-    <a href="/statuses/main" class="btn btn-secondary">Отмена</a>
-</form>
+<main>
+    <h2 class="mt-5">Редактирование статуса</h2>
+    <form action="#" th:action="@{/statuses/update}" method="post" th:object="${status}">
+        <input type="hidden" name="_method" value="post" />
+        <div class="mb-3">
+            <input type="hidden" th:field="*{id}"/>
+            <label for="name" class="form-label">Название:</label>
+            <input type="text" id="name" name="name" class="form-control" th:field="*{name}" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+        <a href="/statuses/main" class="btn btn-secondary">Отмена</a>
+    </form>
+</main>
 <!--Часть footer-->
 <th:block th:replace="main/footer :: footer"></th:block>
 <!--Часть scripts-->
