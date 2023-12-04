@@ -1,7 +1,12 @@
 package ru.project.library_web.repositories;
 
 import org.springframework.data.repository.CrudRepository;
-import ru.project.library_web.models.Book;
+import ru.project.library_web.models.*;
+
+import java.util.List;
 
 public interface BookRepository extends CrudRepository<Book, Long> {
+    List<Book> findByAuthors(Author author);
+    List<Book> findByPublisher(Publisher publisher);
+    List<Book> findByCategory(Category category);
 }

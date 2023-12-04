@@ -24,8 +24,8 @@
                             <th>Название</th>
                             <th>Издатель</th>
                             <th>Год издания</th>
+                            <th>Авторы</th>
                             <th></th>
-                            <!--Добавьте другие колонки, если необходимо -->
                         </tr>
                         </thead>
                         <tbody>
@@ -33,7 +33,13 @@
                             <td th:text="${book.title}"></td>
                             <td th:text="${book.publisher.name}"></td>
                             <td th:text="${book.publication_year}"></td>
-                            <td><a th:href="@{/books/details/{id}(id=${book.id})}" class="btn btn-primary">Подробнее о книге</a></td>
+                            <td>
+                                <!-- Пройдемся по списку авторов книги и выведем их имена -->
+                                <span th:each="author : ${book.authors}" th:text="${author.toString()} + ' '"></span>
+                            </td>
+                            <td>
+                                <a th:href="@{/books/details/{id}(id=${book.id})}" class="btn btn-primary">Подробнее о книге</a>
+                            </td>
                         </tr>
                         </tbody>
                     </table>

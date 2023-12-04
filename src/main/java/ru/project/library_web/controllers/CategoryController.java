@@ -28,11 +28,9 @@ public class CategoryController {
     public String getCategoryDetails(Model model, @PathVariable("id") Long id){
         Optional<Category> category = categoryRepository.findById(id);
         if(category.isEmpty()){
-            //System.out.println(String.format("Запись с id %d не была найдена", category.get().getId()));
             return "redirect:/categories/main";
         }
         model.addAttribute("selectedCategory", category.get());
-        //System.out.println("Открыта страница детализации категории №" + category.get().getId());
         return "category/details";
     }
 

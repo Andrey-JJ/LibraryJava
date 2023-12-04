@@ -30,7 +30,7 @@ public class AuthorController {
         Optional<Author> author = authorRepository.findById(id);
         if(author.isEmpty())
             return "redirect:/authors/main";
-        model.addAttribute("selectedAuthor", author);
+        model.addAttribute("selectedAuthor", author.get());
         return "author/details";
     }
 }

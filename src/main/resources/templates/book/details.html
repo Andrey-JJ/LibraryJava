@@ -29,6 +29,8 @@
             <h5 th:text="'Кол-во страниц: ' + ${selectedBook.volume}"></h5>
         </div>
     </div>
+    <a th:href="@{'/books/update/' + ${selectedBook.id}}" class="btn btn-warning">Редактировать книгу</a>
+    <a th:href="@{'/books/delete/' + ${selectedBook.id}}" class="btn btn-danger">Удалить книгу</a>
 </div>
 <!--Часть footer-->
 <th:block th:replace="main/footer :: footer"></th:block>

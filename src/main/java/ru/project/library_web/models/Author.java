@@ -27,7 +27,7 @@ public class Author {
 
     //Список авторов книги
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "book_author", joinColumns = @JoinColumn(name = "author_id"), inverseJoinColumns = @JoinColumn(name = "book_id"))
+    @JoinTable(name = "bookauthor", joinColumns = @JoinColumn(name = "author_id"), inverseJoinColumns = @JoinColumn(name = "book_id"))
     private List<Book> books;
 
     @Override
