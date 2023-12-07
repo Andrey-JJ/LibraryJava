@@ -16,7 +16,7 @@ public class ApiBookController {
     @Autowired
     BookRepository bookRepository;
 
-    @GetMapping("/")
+    @GetMapping("/main")
     public List<Book> getBooks(){
         List<Book> books = (List<Book>) bookRepository.findAll();
         return books;
