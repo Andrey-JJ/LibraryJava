@@ -16,16 +16,14 @@
         </div>
         <div class="col-md-6">
             <h4 th:text="'Название: ' + ${selectedBook.title}"></h4>
-            <h5>
-                Издатель:
-                <a th:href="@{/publishers/details/{id}(id=${selectedBook.publisher.id})}" th:text="${selectedBook.publisher.name}"></a>
-                | <span th:text="${selectedBook.publication_year}"></span>
+            <h5>Издатель: <a th:href="@{/publishers/details/{id}(id=${selectedBook.publisher.id})}" th:text="${selectedBook.publisher.name}"></a> | <span th:text="${selectedBook.publication_year}"></span></h5>
+            <h5>Авторы:
+                <span th:each="bookAuthor, iterStat : ${selectedBook.bookAuthors}">
+                    <span th:text="${bookAuthor.author.toString()}"></span>
+                    <span th:if="${not iterStat.last}">, </span>
+                </span>
             </h5>
-            <h5>Авторы: <span th:each="author, iterStat : ${selectedBook.authors}" th:text="${author.toString()} + ( ${not iterStat.last} ? ',' : '')"></span></h5>
-            <h5>
-                Категория:
-                <a th:href="@{/categories/details/{id}(id=${selectedBook.category.id})}" th:text="${selectedBook.category.name}"></a>
-            </h5>
+            <h5>Категория: <a th:href="@{/categories/details/{id}(id=${selectedBook.category.id})}" th:text="${selectedBook.category.name}"></a></h5>
             <h5 th:text="'Кол-во страниц: ' + ${selectedBook.volume}"></h5>
         </div>
     </div>

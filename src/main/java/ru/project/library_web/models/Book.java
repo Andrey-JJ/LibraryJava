@@ -40,6 +40,10 @@ public class Book {
     @Column(name = "image")
     private String image;
 
+    public void setImage(final String image) {
+        this.image = image;
+    }
+
     //Описание книги
     @Column(name = "description")
     private String description;
@@ -51,9 +55,13 @@ public class Book {
     private Category category;
 
     //Список авторов книги
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "bookauthor", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
-    private List<Author> authors;
+    // В классе Book
+    @OneToMany(mappedBy = "book")
+    private List<BookAuthor> bookAuthors;
+
+    public List<BookAuthor> getBookAuthors(){
+        return this.bookAuthors;
+    }
 
     //Список экземпляров книги
     @JsonBackReference

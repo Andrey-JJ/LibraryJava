@@ -25,10 +25,9 @@ public class Author {
     @Column(name = "midname")
     private String midname;
 
-    //Список авторов книги
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "bookauthor", joinColumns = @JoinColumn(name = "author_id"), inverseJoinColumns = @JoinColumn(name = "book_id"))
-    private List<Book> books;
+    //Список книг автора
+    @OneToMany(mappedBy = "author")
+    private List<BookAuthor> bookAuthors;
 
     @Override
     public String toString() {

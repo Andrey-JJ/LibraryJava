@@ -4,41 +4,76 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <meta charset="UTF-8">
     <title>Добавление книги</title>
+    <style>
+        /* Добавим стили для прокручиваемого списка */
+        .scrollable-list {
+            max-height: 200px; /* Задайте максимальную высоту списка, при которой он будет прокручиваться */
+            overflow-y: auto; /* Добавим вертикальную прокрутку при необходимости */
+            border: 1px solid #ccc; /* Добавим границу для эффекта */
+            padding: 5px; /* Немного отступа для визуального комфорта */
+        }
+    </style>
 </head>
 <body>
 <!--Часть header-->
 <th:block th:replace="main/header :: header"></th:block>
 <!--Часть main-->
-<main>
-    <h2>Добавление книги</h2>
-
+<main class="container">
     <form action="/books/new" method="post" enctype="multipart/form-data">
-        <label for="title">Название:</label>
-        <input type="text" id="title" name="title" required><br>
+        <h2 class="mb-3">Добавление книги</h2>
 
-        <label for="publisher">Издатель:</label>
-        <select id="publisher" name="publisher.id">
-            <option th:each="publisher : ${publishers}" th:value="${publisher.id}" th:text="${publisher.name}"></option>
-        </select><br>
+        <div class="form-group mb-3">
+            <label for="title">Название:</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
 
-        <label for="publicationYear">Год публикации:</label>
-        <input type="number" id="publicationYear" name="publication_year" required><br>
+        <div class="form-group row mb-3">
+            <div class="col-md-6 mb-3">
+                <label for="publisher">Издатель:</label>
+                <select id="publisher" name="publisher.id" class="form-control">
+                    <option th:each="publisher : ${publishers}" th:value="${publisher.id}" th:text="${publisher.name}"></option>
+                </select>
+            </div>
 
-        <label for="volume">Объем:</label>
-        <input type="number" id="volume" name="volume" required><br>
+            <div class="col-md-6 mb-3">
+                <label for="publicationYear">Год публикации:</label>
+                <input type="number" class="form-control" id="publicationYear" name="publication_year" required>
+            </div>
+        </div>
 
-        <label for="imageFile">Изображение:</label>
-        <input type="file" id="imageFile" name="imageFile" accept="image/*"><br>
+        <div class="form-group mb-3">
+            <label>Авторы:</label>
+            <div class="scrollable-list">
+                <div th:each="author : ${authors}" class="form-check">
+                    <input type="checkbox" class="form-check-input" name="selectedAuthors" th:value="${author.id}" id="${'author_' + author.id}">
+                    <label class="form-check-label" th:for="${'author_' + author.id}" th:text="${author.toString()}"></label>
+                </div>
+            </div>
+        </div>
 
-        <label for="description">Описание:</label>
-        <textarea id="description" name="description"></textarea><br>
+        <div class="form-group mb-3">
+            <label for="category">Категория:</label>
+            <select id="category" name="category.id" class="form-control">
+                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+            </select>
+        </div>
 
-        <label for="category">Категория:</label>
-        <select id="category" name="category.id">
-            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
-        </select><br>
+        <div class="form-group mb-3">
+            <label for="volume">Объем:</label>
+            <input type="number" class="form-control" id="volume" name="volume" required>
+        </div>
 
-        <button type="submit">Добавить</button>
+        <div class="form-group mb-3">
+            <label for="imageFile">Изображение:</label>
+            <input type="file" class="form-control form-control-file" id="imageFile" name="imageFile" accept="image/*">
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="description">Описание:</label>
+            <textarea class="form-control" id="description" name="description" style="min-height: 200px; height: 200px;"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Добавить</button>
     </form>
 </main>
 <!--Часть footer-->

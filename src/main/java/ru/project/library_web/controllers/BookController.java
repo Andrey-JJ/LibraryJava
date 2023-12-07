@@ -4,15 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.project.library_web.models.Author;
-import ru.project.library_web.models.Book;
-import ru.project.library_web.models.Category;
-import ru.project.library_web.models.Publisher;
-import ru.project.library_web.repositories.AuthorRepository;
-import ru.project.library_web.repositories.BookRepository;
-import ru.project.library_web.repositories.CategoryRepository;
-import ru.project.library_web.repositories.PublisherRepository;
+import org.springframework.web.multipart.MultipartFile;
+import ru.project.library_web.models.*;
+import ru.project.library_web.repositories.*;
 
+import java.io.IOException;
+import java.nio.file.*;
 import java.util.*;
 
 @RequestMapping("/books")
@@ -26,6 +23,8 @@ public class BookController {
     private CategoryRepository categoryRepository;
     @Autowired
     private PublisherRepository publisherRepository;
+    @Autowired
+    private BookAuthorRepository bookAuthorRepository;
 
     @GetMapping("/main")
     public String getBooks(Model model){
@@ -46,17 +45,15 @@ public class BookController {
     public String getBookDetails(Model model, @PathVariable("id") Long id){
         Optional<Book> book = bookRepository.findById(id);
         if(book.isEmpty()){
-            //System.out.println(String.format("Запись с id %d не была найдена", book.get().getId()));
             return "redirect:/books/main";
         }
         model.addAttribute("selectedBook", book.get());
-        //System.out.println("Открыта страница детализации книги №" + book.get().getId());
         return "book/details";
     }
 
     // Ваш текущий код контроллера
 
-    @GetMapping("/filter")
+    /*@GetMapping("/filter")
     public String filterBooks(
             @RequestParam(name = "author", required = false) Long authorId,
             @RequestParam(name = "publisher", required = false) Long publisherId,
@@ -112,7 +109,54 @@ public class BookController {
         // Выводим отфильтрованные книги
         model.addAttribute("books", filteredBooks);
         return "book/main";
+    }*/
+
+    @GetMapping("/new")
+    public String addNewBook(Model model){
+        //Для выбора
+        List<Author> authors = (List<Author>) authorRepository.findAll();
+        List<Category> categories = (List<Category>) categoryRepository.findAll();
+        List<Publisher> publishers = (List<Publisher>) publisherRepository.findAll();
+
+        model.addAttribute("book", new Book());
+        model.addAttribute("categories", categories);
+        model.addAttribute("authors", authors);
+        model.addAttribute("publishers", publishers);
+        return "book/add";
     }
 
+    @PostMapping("/new")
+    public String addNewBook(@ModelAttribute Book book,
+                             @RequestParam("imageFile") MultipartFile imageFile,
+                             @RequestParam(name = "selectedAuthors") List<Long> authorIds,
+                             Model model){
+        // Обработка файла изображения
+        if (!imageFile.isEmpty()) {
+            try {
+                // Сохранение файла на сервере, например, в папку resources\static\images
+                String imagePath = imageFile.getOriginalFilename();
+                Path uploadPath = Paths.get("src/main/resources/static/images/");
+                Files.copy(imageFile.getInputStream(), uploadPath.resolve(imageFile.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
 
+                // Установка пути изображения в модель книги
+                book.setImage(imagePath);
+            } catch (IOException e) {
+                e.printStackTrace(); // Обработка ошибок ввода-вывода
+            }
+        }
+
+        if (authorIds != null) {
+            List<Author> authors = (List<Author>) authorRepository.findAllById(authorIds);
+
+            // Добавление связи в дополнительную таблицу bookauthor
+            for (Author author : authors) {
+                book.getBookAuthors().add(new BookAuthor(book, author));
+            }
+
+            bookRepository.save(book);
+            bookAuthorRepository.saveAll(book.getBookAuthors());
+        }
+
+        return "redirect:/books/main";
+    }
 }
