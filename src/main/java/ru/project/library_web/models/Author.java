@@ -1,5 +1,7 @@
 package ru.project.library_web.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,6 +28,7 @@ public class Author {
     private String midname;
 
     //Список книг автора
+    @JsonBackReference
     @OneToMany(mappedBy = "author")
     private List<BookAuthor> bookAuthors;
 

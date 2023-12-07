@@ -1,7 +1,10 @@
 package ru.project.library_web.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -16,6 +19,10 @@ public class Status {
 
     @Column(name = "name")
     private String name;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "status", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CopyBook> copyBooks;
 
     @Override
     public String toString() {

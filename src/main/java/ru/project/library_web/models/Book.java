@@ -56,6 +56,7 @@ public class Book {
 
     //Список авторов книги
     // В классе Book
+    @JsonBackReference
     @OneToMany(mappedBy = "book")
     private List<BookAuthor> bookAuthors;
 
@@ -63,8 +64,8 @@ public class Book {
         return this.bookAuthors;
     }
 
+    @JsonManagedReference
     //Список экземпляров книги
-    @JsonBackReference
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CopyBook> copyBooks;
 

@@ -12,23 +12,23 @@ import ru.project.library_web.repositories.CategoryRepository;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping("/api")
+@RequestMapping("/api/categories")
 @RestController
-public class CategoryApiController {
+public class ApiCategoryController {
     @Autowired
     CategoryRepository categoryRepository;
 
-    @GetMapping("/category/{id}")
+    @GetMapping("/")
+    public List<Category> getCategories(){
+        List<Category> categories = (List<Category>) categoryRepository.findAll();
+        return categories;
+    }
+
+    @GetMapping("/details/{id}")
     public Category getCategory(@PathVariable("id") Long id){
         Optional<Category> category = categoryRepository.findById(id);
         if(category.isEmpty())
             throw new EntityNotFoundException("Category Not Found");
         return category.get();
-    }
-
-    @GetMapping("/category")
-    public List<Category> getCategories(){
-        List<Category> categories = (List<Category>) categoryRepository.findAll();
-        return categories;
     }
 }

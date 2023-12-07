@@ -1,5 +1,7 @@
 package ru.project.library_web.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,6 +21,7 @@ public class Publisher {
     @Column(name = "name")
     private String name;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Book> books;
 
