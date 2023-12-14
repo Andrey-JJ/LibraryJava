@@ -20,21 +20,6 @@ public class ApiShopController {
     @Autowired
     BookShopRepository bookShopRepository;
 
-    @Autowired
-    AuthorShopRepository authorShopRepository;
-
-    @Autowired
-    PublisherShopRepository publisherShopRepository;
-
-    @Autowired
-    CategoryShopRepository categoryShopRepository;
-
-    @Autowired
-    CopyBookShopRepository copyBookShopRepository;
-
-    @Autowired
-    BookingShopRepository bookingShopRepository;
-
     @GetMapping("/books")
     public List<BookShop> getBooks(){
         List<BookShop> books = (List<BookShop>) bookShopRepository.findAll();
@@ -48,6 +33,9 @@ public class ApiShopController {
             throw new RuntimeException("Книга не была найдена");
         return book.get();
     }
+
+    @Autowired
+    AuthorShopRepository authorShopRepository;
 
     @GetMapping("/authors")
     public List<AuthorShop> getAuthors(){
@@ -63,19 +51,8 @@ public class ApiShopController {
         return author.get();
     }
 
-    @GetMapping("/categories")
-    public List<CategoryShop> getCategories(){
-        List<CategoryShop> categories = (List<CategoryShop>) categoryShopRepository.findAll();
-        return categories;
-    }
-
-    @GetMapping("/categories/details/{id}")
-    public CategoryShop getCategoriesDetails(@PathVariable("id") Long id){
-        Optional<CategoryShop> category = categoryShopRepository.findById(id);
-        if (category.isEmpty())
-            throw new RuntimeException("Категория не была найдена");
-        return category.get();
-    }
+    @Autowired
+    PublisherShopRepository publisherShopRepository;
 
     @GetMapping("/publishers")
     public List<PublisherShop> getPublishers(){
@@ -90,4 +67,27 @@ public class ApiShopController {
             throw new RuntimeException("Издатель не был найден");
         return publisher.get();
     }
+
+    @Autowired
+    CategoryShopRepository categoryShopRepository;
+
+    @GetMapping("/categories")
+    public List<CategoryShop> getCategories(){
+        List<CategoryShop> categories = (List<CategoryShop>) categoryShopRepository.findAll();
+        return categories;
+    }
+
+    @GetMapping("/categories/details/{id}")
+    public CategoryShop getCategoriesDetails(@PathVariable("id") Long id){
+        Optional<CategoryShop> category = categoryShopRepository.findById(id);
+        if (category.isEmpty())
+            throw new RuntimeException("Категория не была найдена");
+        return category.get();
+    }
+
+    @Autowired
+    CopyBookShopRepository copyBookShopRepository;
+
+    @Autowired
+    BookingShopRepository bookingShopRepository;
 }

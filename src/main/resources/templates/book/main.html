@@ -11,41 +11,6 @@
 <!--Часть main-->
 <main>
     <div class="container mt-5">
-        <!-- Форма для фильтрации -->
-        <form action="/books/filter" method="get">
-            <div class="row mb-3">
-                <div class="col-md-4">
-                    <h5>Фильтр по автору:</h5>
-                    <div th:each="author : ${authors}">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="authorFilter" name="authors" th:value="${author.id}">
-                            <label class="form-check-label" th:for="${'authorFilter-' + author.id}" th:text="${author.toString()}"></label>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <h5>Фильтр по издателю:</h5>
-                    <div th:each="publisher : ${publishers}">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="publisherFilter" name="publishers" th:value="${publisher.id}">
-                            <label class="form-check-label" th:for="${'publisherFilter-' + publisher.id}" th:text="${publisher.name}"></label>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <h5>Фильтр по категории:</h5>
-                    <div th:each="category : ${categories}">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="categoryFilter" name="categories" th:value="${category.id}">
-                            <label class="form-check-label" th:for="${'categoryFilter-' + category.id}" th:text="${category.name}"></label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Применить фильтры</button>
-        </form>
-
         <h2>Каталог книг</h2>
         <div class="row">
             <div class="col-md-3" th:each="book : ${books}">

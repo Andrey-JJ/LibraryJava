@@ -66,7 +66,7 @@ public class PublisherController {
         Optional<Publisher> publisher = publisherRepository.findById(id);
         if (publisher.isEmpty())
             return "redirect:/publishers/main";
-        model.addAttribute("publisher", publisher);
+        model.addAttribute("publisher", publisher.get());
         return "publisher/delete";
     }
 

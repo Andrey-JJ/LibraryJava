@@ -10,14 +10,16 @@
 <th:block th:replace="main/header :: header"></th:block>
 <!-- Часть main -->
 <main>
-    <h2 class="mt-5">Удаление издателя</h2>
-    <p class="mb-3">Вы действительно хотите удалить издателя - "<span th:text="${publisher.name}"></span>"?</p>
-    <form action="#" th:action="@{/publishers/delete/{id}(id=${publisher.id})}" method="post">
-        <input type="hidden" th:field="*{id}"/>
-        <input type="hidden" name="_method" value="post" />
-        <button type="submit" class="btn btn-danger">Удалить</button>
-        <a href="/publishers/main" class="btn btn-secondary">Отмена</a>
-    </form>
+    <div class="container mt-4">
+        <h2 class="mt-5">Удаление издателя</h2>
+        <p class="mb-3">Вы действительно хотите удалить издателя - "<span th:text="${publisher.name}"></span>"?</p>
+        <form action="#" th:action="@{/publishers/delete/{id}(id=${publisher.id})}" method="post">
+            <input type="hidden" th:field="*{id}"/>
+            <input type="hidden" name="_method" value="post" />
+            <button type="submit" class="btn btn-danger">Удалить</button>
+            <a href="#" th:href="@{/publishers/main}" class="btn btn-secondary">Отмена</a>
+        </form>
+    </div>
 </main>
 <!--Часть footer-->
 <th:block th:replace="main/footer :: footer"></th:block>

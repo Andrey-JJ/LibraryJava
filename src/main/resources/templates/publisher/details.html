@@ -32,8 +32,10 @@
                             <td th:text="${book.category.name}"></td>
                             <td th:text="${book.publication_year}"></td>
                             <td>
-                                <!-- Пройдемся по списку авторов книги и выведем их имена -->
-                                <span th:each="author : ${book.authors}" th:text="${author.toString()} + ' '"></span>
+                                <span th:each="bookAuthor, iterStat : ${book.bookAuthors}">
+                                    <span th:text="${bookAuthor.author.toString()}"></span>
+                                    <span th:if="${not iterStat.last}">, </span>
+                                </span>
                             </td>
                             <td>
                                 <a th:href="@{/books/details/{id}(id=${book.id})}" class="btn btn-primary">Подробнее о книге</a>
@@ -45,8 +47,8 @@
                 </div>
             </div>
         </div>
-        <a th:href="@{'/publishers/edit/' + ${selectedPublisher.id}}" class="btn btn-warning">Редактировать категорию</a>
-        <a th:href="@{'/publishers/delete/' + ${selectedPublisher.id}}" class="btn btn-danger">Удалить категорию</a>
+        <a th:href="@{/publishers/update/{id}(id=${selectedPublisher.id})}" class="btn btn-warning">Редактировать издателя</a>
+        <a th:href="@{/publishers/delete/{id}(id=${selectedPublisher.id})}" class="btn btn-danger">Удалить издателя</a>
     </div>
 </main>
 <!--Часть footer-->

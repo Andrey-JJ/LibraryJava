@@ -149,7 +149,7 @@ public class BookController {
             List<Author> authors = (List<Author>) authorRepository.findAllById(authorIds);
 
             // Добавление связи в дополнительную таблицу bookauthor
-            for (Author author : authors) {
+            for (var author : authors) {
                 book.getBookAuthors().add(new BookAuthor(book, author));
             }
 
