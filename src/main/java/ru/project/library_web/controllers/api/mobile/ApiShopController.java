@@ -1,14 +1,11 @@
 package ru.project.library_web.controllers.api.mobile;
 
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import ru.project.library_web.models.mobile.AuthorShop;
-import ru.project.library_web.models.mobile.BookShop;
-import ru.project.library_web.models.mobile.CategoryShop;
-import ru.project.library_web.models.mobile.PublisherShop;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.web.bind.annotation.*;
+import ru.project.library_web.models.mobile.*;
 import ru.project.library_web.repositories.mobile.*;
 
 import java.util.List;
@@ -26,14 +23,6 @@ public class ApiShopController {
         return books;
     }
 
-    @GetMapping("/books/details/{id}")
-    public BookShop getBookDetails(@PathVariable("id") Long id){
-        Optional<BookShop> book = bookShopRepository.findById(id);
-        if (book.isEmpty())
-            throw new RuntimeException("Книга не была найдена");
-        return book.get();
-    }
-
     @Autowired
     AuthorShopRepository authorShopRepository;
 
@@ -41,14 +30,6 @@ public class ApiShopController {
     public List<AuthorShop> getAuthors(){
         List<AuthorShop> authors = (List<AuthorShop>) authorShopRepository.findAll();
         return authors;
-    }
-
-    @GetMapping("/authors/details/{id}")
-    public AuthorShop getAuthorsDetails(@PathVariable("id") Long id){
-        Optional<AuthorShop> author = authorShopRepository.findById(id);
-        if (author.isEmpty())
-            throw new RuntimeException("Автор не был найден");
-        return author.get();
     }
 
     @Autowired
@@ -60,14 +41,6 @@ public class ApiShopController {
         return publishers;
     }
 
-    @GetMapping("/publishers/details/{id}")
-    public PublisherShop getPublishersDetails(@PathVariable("id") Long id){
-        Optional<PublisherShop> publisher = publisherShopRepository.findById(id);
-        if (publisher.isEmpty())
-            throw new RuntimeException("Издатель не был найден");
-        return publisher.get();
-    }
-
     @Autowired
     CategoryShopRepository categoryShopRepository;
 
@@ -77,17 +50,55 @@ public class ApiShopController {
         return categories;
     }
 
-    @GetMapping("/categories/details/{id}")
-    public CategoryShop getCategoriesDetails(@PathVariable("id") Long id){
-        Optional<CategoryShop> category = categoryShopRepository.findById(id);
-        if (category.isEmpty())
-            throw new RuntimeException("Категория не была найдена");
-        return category.get();
-    }
-
     @Autowired
     CopyBookShopRepository copyBookShopRepository;
 
+    @GetMapping("/copybooks")
+    public List<CopyBookShop> getCopyBooks(){
+        List<CopyBookShop> copyBooks = (List<CopyBookShop>) copyBookShopRepository.findAll();
+        return copyBooks;
+    }
+
+    @PutMapping("/copybooks/update/{id}")
+    public HttpStatusCode editCopyBook(@PathVariable("id") Long id, @RequestBody @Valid CopyBookShop updatedCopyBook){
+        Optional<CopyBookShop> copyBook = copyBookShopRepository.findById(id);
+        if(copyBook.isEmpty())
+            throw new EntityNotFoundException("Экземпляр книги для изменения не был найден");
+        //updatedCopyBook.setId(id);
+        copyBookShopRepository.save(updatedCopyBook);
+        return HttpStatusCode.valueOf(200);
+    }
+
+    @GetMapping("/copybooks/delete/{id}")
+    public HttpStatusCode deleteCopyBook(@PathVariable("id") Long id){
+        Optional<CopyBookShop> copyBook = copyBookShopRepository.findById(id);
+        if(copyBook.isEmpty())
+            throw new EntityNotFoundException("Экземпляр книги не был найден для удаления");
+        copyBookShopRepository.deleteById(id);
+        return HttpStatusCode.valueOf(200);
+    }
+
     @Autowired
     BookingShopRepository bookingShopRepository;
+
+    @GetMapping("/bookings")
+    public List<BookingShop> getBookings(){
+        List<BookingShop> bookings = (List<BookingShop>) bookingShopRepository.findAll();
+        return bookings;
+    }
+
+    @PostMapping("/bookings/add")
+    public HttpStatusCode addBooking(@RequestBody @Valid BookingShop bookingShop){
+        bookingShopRepository.save(bookingShop);
+        return HttpStatusCode.valueOf(200);
+    }
+
+    @GetMapping("/bookings/delete/{id}")
+    public HttpStatusCode deleteBooking(@PathVariable("id") Long id){
+        Optional<BookingShop> booking = bookingShopRepository.findById(id);
+        if(booking.isEmpty())
+            throw new EntityNotFoundException("Бронирование книги не было найдено для удаления");
+        bookingShopRepository.deleteById(id);
+        return HttpStatusCode.valueOf(200);
+    }
 }
