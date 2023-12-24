@@ -1,5 +1,6 @@
 package ru.project.library_web.models.mobile;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,17 +26,14 @@ public class BookShop {
 
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = true)
-    @JsonManagedReference
     private AuthorShop author;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = true)
-    @JsonManagedReference
     private CategoryShop category;
 
     @ManyToOne
     @JoinColumn(name = "publisher_id", nullable = true)
-    @JsonManagedReference
     private PublisherShop publisher;
 
     @Column(name = "publication_year")
@@ -52,10 +50,6 @@ public class BookShop {
 
     @Column(name = "price")
     private BigDecimal price;
-
-    @JsonManagedReference
-    @OneToMany(mappedBy = "bookshop")
-    private List<CopyBookShop> copyBooks;
 
     @Override
     public String toString() {

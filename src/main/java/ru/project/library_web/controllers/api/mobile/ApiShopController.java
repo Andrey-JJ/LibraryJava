@@ -5,7 +5,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.*;
+import ru.project.library_web.models.Reader;
 import ru.project.library_web.models.mobile.*;
+import ru.project.library_web.repositories.ReaderRepository;
 import ru.project.library_web.repositories.mobile.*;
 
 import java.util.List;
@@ -93,12 +95,21 @@ public class ApiShopController {
         return HttpStatusCode.valueOf(200);
     }
 
-    @GetMapping("/bookings/delete/{id}")
+    @DeleteMapping("/bookings/delete/{id}")
     public HttpStatusCode deleteBooking(@PathVariable("id") Long id){
         Optional<BookingShop> booking = bookingShopRepository.findById(id);
         if(booking.isEmpty())
             throw new EntityNotFoundException("Бронирование книги не было найдено для удаления");
         bookingShopRepository.deleteById(id);
         return HttpStatusCode.valueOf(200);
+    }
+
+    @Autowired
+    ReaderRepository readerRepository;
+
+    @GetMapping("/readers")
+    public List<Reader> getReaders(){
+        List<Reader> readers = (List<Reader>) readerRepository.findAll();
+        return readers;
     }
 }

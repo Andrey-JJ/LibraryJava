@@ -19,12 +19,10 @@ public class BookingShop {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "copybook_id", nullable = true)
-    @JsonManagedReference
-    private CopyBookShop copyBook;
+    @JoinColumn(name = "book_id", nullable = true)
+    private BookShop book;
 
     @ManyToOne
     @JoinColumn(name = "reader_id", nullable = true)
-    @JsonManagedReference
     private Reader reader;
 }
