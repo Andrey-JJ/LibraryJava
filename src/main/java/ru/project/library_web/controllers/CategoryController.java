@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.project.library_web.models.*;
+import ru.project.library_web.repositories.BookRepository;
 import ru.project.library_web.repositories.CategoryRepository;
 
 import java.util.List;
@@ -16,6 +17,9 @@ import java.util.Optional;
 public class CategoryController {
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private BookRepository bookRepository;
 
     @GetMapping("/main")
     public String getCategories(Model model){
@@ -44,6 +48,36 @@ public class CategoryController {
     public String addNewCategory(@ModelAttribute Category category, Model model){
         categoryRepository.save(category);
         return "redirect:/categories/main";
+    }
+
+    @GetMapping("/addBook/{categoryId}")
+    public String showAddBookPage(Model model, @PathVariable Long categoryId) {
+        Optional<Category> category = categoryRepository.findById(categoryId);
+        List<Book> booksWithoutCategory = bookRepository.findByCategoryIsNull();
+
+        if (category.isEmpty()) {
+            return "redirect:/categoreis/main";
+        }
+
+        model.addAttribute("selectedCategory", category.get());
+        model.addAttribute("allBooks", booksWithoutCategory);
+
+        return "category/addBook";
+    }
+
+    @PostMapping("/addBook/{categoryId}")
+    public String addBooksToPublisher(@PathVariable Long categoryId, @RequestParam("bookIds") List<Long> bookIds) {
+        Optional<Category> category = categoryRepository.findById(categoryId);
+
+        if (category.isPresent()) {
+            Category selectedCategory = category.get();
+            List<Book> selectedBooks = (List<Book>) bookRepository.findAllById(bookIds);
+
+            selectedCategory.getBooks().addAll(selectedBooks);
+            categoryRepository.save(selectedCategory);
+        }
+
+        return "redirect:/categoreis/details/" + categoryId;
     }
 
     @GetMapping("/update/{id}")

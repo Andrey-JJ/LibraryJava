@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>Добавление книг в категорию</title>
+</head>
+<body>
+<!-- Часть header -->
+<th:block th:replace="main/header :: header"></th:block>
+<!-- Часть main -->
+<main>
+    <div class="container mt-4">
+        <!-- Форма для добавления книг издателю -->
+        <div id="addBookForm">
+            <h4>Добавление книги для категории: <span th:text="${selectedCategory.name}"></span></h4>
+            <form th:action="@{/categories/addBook/{categoryId}(categoryId=${selectedCategory.id})}" method="post">
+                <input type="hidden" name="categoryId" th:value="${selectedCategory.id}" />
+                <label>Выберите книги:</label>
+                <div class="scrollable-list" style="max-height: 200px; overflow-y: auto;">
+                    <div th:each="book : ${allBooks}">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="book${book.id}" name="bookIds" th:value="${book.id}">
+                            <label class="form-check-label" th:for="'book' + ${book.id}" th:text="${book.title}"></label>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success mb-2">Добавить выбранные книги</button>
+            </form>
+        </div>
+        <div>
+            <a th:href="@{/categories/main}" class="btn btn-secondary">Вернуться к списку категорий</a>
+        </div>
+    </div>
+</main>
+<!--Часть footer-->
+<th:block th:replace="main/footer :: footer"></th:block>
+<!--Часть scripts-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>

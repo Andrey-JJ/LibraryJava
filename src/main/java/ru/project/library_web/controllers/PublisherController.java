@@ -5,6 +5,7 @@ import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.project.library_web.models.Book;
 import ru.project.library_web.models.Publisher;
 import ru.project.library_web.repositories.*;
 
@@ -16,6 +17,9 @@ import java.util.Optional;
 public class PublisherController {
     @Autowired
     private PublisherRepository publisherRepository;
+
+    @Autowired
+    private BookRepository bookRepository;
 
     @GetMapping("/main")
     public String getPublishers(Model model){
@@ -44,6 +48,36 @@ public class PublisherController {
     public String addNewPublisher(@ModelAttribute Publisher publisher, Model model){
         publisherRepository.save(publisher);
         return "redirect:/publishers/main";
+    }
+
+    @GetMapping("/addBook/{publisherId}")
+    public String showAddBookPage(Model model, @PathVariable Long publisherId) {
+        Optional<Publisher> publisher = publisherRepository.findById(publisherId);
+        List<Book> booksWithoutPublisher = bookRepository.findByPublisherIsNull(); // Замените на ваш репозиторий для книг
+
+        if (publisher.isEmpty()) {
+            return "redirect:/publishers/main";
+        }
+
+        model.addAttribute("selectedPublisher", publisher.get());
+        model.addAttribute("allBooks", booksWithoutPublisher);
+
+        return "publisher/addBook";
+    }
+
+    @PostMapping("/addBook/{publisherId}")
+    public String addBooksToPublisher(@PathVariable Long publisherId, @RequestParam("bookIds") List<Long> bookIds) {
+        Optional<Publisher> publisher = publisherRepository.findById(publisherId);
+
+        if (publisher.isPresent()) {
+            Publisher selectedPublisher = publisher.get();
+            List<Book> selectedBooks = (List<Book>) bookRepository.findAllById(bookIds); // Замените на ваш репозиторий для книг
+
+            selectedPublisher.getBooks().addAll(selectedBooks);
+            publisherRepository.save(selectedPublisher);
+        }
+
+        return "redirect:/publishers/details/" + publisherId;
     }
 
     @GetMapping("/update/{id}")

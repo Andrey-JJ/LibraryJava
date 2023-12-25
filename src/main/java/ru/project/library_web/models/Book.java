@@ -5,12 +5,12 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "book")
 public class Book {
     @Id
@@ -60,6 +60,10 @@ public class Book {
     @OneToMany(mappedBy = "book")
     private List<BookAuthor> bookAuthors;
 
+    public void setBookAuthors(List<BookAuthor> bookAuthors) {
+        this.bookAuthors = bookAuthors;
+    }
+
     public List<BookAuthor> getBookAuthors(){
         return this.bookAuthors;
     }
@@ -68,6 +72,14 @@ public class Book {
     //Список экземпляров книги
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CopyBook> copyBooks;
+
+    public List<CopyBook> getCopyBooks() {
+        return copyBooks;
+    }
+
+    public void setCopyBooks(List<CopyBook> copyBooks) {
+        this.copyBooks = copyBooks;
+    }
 
     @Override
     public String toString() {
@@ -81,5 +93,17 @@ public class Book {
                 ", description='" + description + '\'' +
                 ", category=" + category +
                 '}';
+    }
+
+    public Book() {
+        this.bookAuthors = new ArrayList<>();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

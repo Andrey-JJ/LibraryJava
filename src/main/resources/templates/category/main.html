@@ -12,11 +12,12 @@
 <main>
     <div class="container mt-4">
         <div th:each="category : ${categories}">
-            <h4 th:text="${category.name}"><!--<a th:href="@{/categoreis/details/{id}(id=${category.id}})}"></a>--></h4>
+            <h4 th:text="${category.name}"></h4>
             <button class="navbar-togger collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#categoryData" aria-controls="categoryData" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="nav-toggler-icon"></span>
             </button>
             <div class="navbar-collapse collapse" id="categoryData">
+                <a th:href="@{/categories/details/{id}(id=${category.id})}" class="btn btn-info btn-sm">Подробнее о категории</a>
                 <div class="row">
                     <div th:each="book : ${category.books}" class="col-md-3 mb-4">
                         <div class="card border-0">

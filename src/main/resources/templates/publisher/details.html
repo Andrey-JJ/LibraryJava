@@ -20,7 +20,7 @@
                         <thead>
                         <tr>
                             <th>Название</th>
-                            <th>Издатель</th>
+                            <th>Категория</th>
                             <th>Год издания</th>
                             <th>Авторы</th>
                             <th></th>
@@ -43,7 +43,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <a th:href="@{'/addBook?publisherId=' + ${selectedPublisher.id}}" class="btn btn-primary">Добавить книгу</a>
+                    <a th:href="@{/publishers/addBook/{id}(id=${selectedPublisher.id})}" class="btn btn-primary">Добавить книгу</a>
                 </div>
             </div>
         </div>
