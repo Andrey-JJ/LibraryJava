@@ -157,4 +157,23 @@ public class BookController {
 
         return "redirect:/books/details/" + id; // Перенаправление на страницу деталей книги
     }
+
+    @GetMapping("/delete/{id}")
+    public String deleteBook(Model model, @PathVariable("id") Long id){
+        Optional<Book> book = bookRepository.findById(id);
+        if(book.isEmpty()){
+            return "redirect:/books/main";
+        }
+        model.addAttribute("selectedBook", book.get());
+        return "book/delete";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteBook(@PathVariable("id") Long id){
+        Optional<Book> book = bookRepository.findById(id);
+        if(book.isPresent()){
+            bookRepository.deleteById(id);
+        }
+        return "redirect:/books/main";
+    }
 }

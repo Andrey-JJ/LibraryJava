@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Детализация читателя</title>
+</head>
+<body>
+<!-- Часть header -->
+<th:block th:replace="main/header :: header"></th:block>
+<!-- Часть main -->
+<main>
+    <div class="container mt-4">
+        <div class="card mt-4 border-0">
+            <div id="categoryInfo" class="collapse show">
+                <div class="card-body">
+                    <h3>ФИО: <span th:text="${selectedReader.toString()}"></span></h3>
+                    <h4>Список желаемых книг:</h4>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Название</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--<tr th:each="book : ${selectedCategory.books}">
+                            <td th:text="${book.title}"></td>
+                            <td th:text="${book.publisher.name}"></td>
+                            <td th:text="${book.publication_year}"></td>
+                            <td>
+                                <span th:each="bookAuthor, iterStat : ${book.authors}">
+                                    <span th:text="${bookAuthor.author.toString()}"></span>
+                                    <span th:if="${not iterStat.last}">, </span>
+                                </span>
+                            </td>
+                            <td>
+                                <a th:href="@{/books/details/{id}(id=${book.id})}" class="btn btn-primary">Подробнее о книге</a>
+                            </td>
+                        </tr>-->
+                        </tbody>
+                    </table>
+                    <h4>Список выданных книг:</h4>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Название</th>
+                            <th>Дата выдачи</th>
+                            <th>Дата возврата</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--<tr th:each="book : ${selectedCategory.books}">
+                            <td th:text="${book.title}"></td>
+                            <td th:text="${book.publisher.name}"></td>
+                            <td th:text="${book.publication_year}"></td>
+                            <td>
+                                <span th:each="bookAuthor, iterStat : ${book.authors}">
+                                    <span th:text="${bookAuthor.author.toString()}"></span>
+                                    <span th:if="${not iterStat.last}">, </span>
+                                </span>
+                            </td>
+                            <td>
+                                <a th:href="@{/books/details/{id}(id=${book.id})}" class="btn btn-primary">Подробнее о книге</a>
+                            </td>
+                        </tr>-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!--Часть footer-->
+<th:block th:replace="main/footer :: footer"></th:block>
+<!--Часть скриптов-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,7 +1,10 @@
 package ru.project.library_web.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -22,6 +25,14 @@ public class Reader {
 
     @Column(name = "midname")
     private String midname;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "reader", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Booking> bookings;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "reader", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Loan> loans;
 
     @Override
     public String toString() {

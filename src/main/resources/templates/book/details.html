@@ -9,27 +9,39 @@
 <!--Часть header-->
 <th:block th:replace="main/header :: header"></th:block>
 <!--Часть main-->
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-md-6">
-            <img th:src="@{/images/{imagePath}(imagePath=${selectedBook.image})}" alt="Book Cover" class="img-fluid">
-        </div>
-        <div class="col-md-6">
-            <h4 th:text="'Название: ' + ${selectedBook.title}"></h4>
-            <h5>Издатель: <a th:href="@{/publishers/details/{id}(id=${selectedBook.publisher.id})}" th:text="${selectedBook.publisher.name}"></a> | <span th:text="${selectedBook.publication_year}"></span></h5>
-            <h5>Авторы:
-                <span th:each="bookAuthor, iterStat : ${selectedBook.authors}">
-                    <span th:text="${bookAuthor.author.toString()}"><a th:href="@{/authors/details/{id}(id=${bookAuthor.author.id})}"></a></span>
+<main>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-4">
+                <img th:src="@{/images/{imagePath}(imagePath=${selectedBook.image})}" alt="Book Cover" class="img-fluid">
+            </div>
+            <div class="col-md-6">
+                <h4 th:text="'Название: ' + ${selectedBook.title}"></h4>
+                <h5>Издатель: <a th:href="@{/publishers/details/{id}(id=${selectedBook.publisher.id})}" th:text="${selectedBook.publisher.name}"></a> | <span th:text="${selectedBook.publication_year}"></span></h5>
+                <h5>Авторы:
+                    <span th:each="bookAuthor, iterStat : ${selectedBook.authors}">
+                    <a th:href="@{/authors/details/{id}(id=${bookAuthor.author.id})}" th:text="${bookAuthor.author.toString()}"></a>
                     <span th:if="${not iterStat.last}">, </span>
                 </span>
-            </h5>
-            <h5>Категория: <a th:href="@{/categories/details/{id}(id=${selectedBook.category.id})}" th:text="${selectedBook.category.name}"></a></h5>
-            <h5 th:text="'Кол-во страниц: ' + ${selectedBook.volume}"></h5>
+                </h5>
+                <h5>Категория: <a th:href="@{/categories/details/{id}(id=${selectedBook.category.id})}" th:text="${selectedBook.category.name}"></a></h5>
+                <h5 th:text="'Кол-во страниц: ' + ${selectedBook.volume}"></h5>
+                <div class="row mt-2">
+                    <div class="col-md-6">
+                        <a href="#" class="btn btn-primary mb-2">Забронировать</a>
+                        <a href="#" class="btn btn-success mb-2">Добавить в выдачу</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <a th:href="@{/books/update/{id}(id=${selectedBook.id})}" class="btn btn-warning">Редактировать книгу</a>
+                <a th:href="@{/books/delete/{id}(id=${selectedBook.id})}" class="btn btn-danger">Удалить книгу</a>
+            </div>
         </div>
     </div>
-    <a th:href="@{/books/update/{id}(id=${selectedBook.id})}" class="btn btn-warning">Редактировать книгу</a>
-    <a th:href="@{/books/delete/{id}(id=${selectedBook.id})}" class="btn btn-danger">Удалить книгу</a>
-</div>
+</main>
 <!--Часть footer-->
 <th:block th:replace="main/footer :: footer"></th:block>
 <!--Часть скриптов-->

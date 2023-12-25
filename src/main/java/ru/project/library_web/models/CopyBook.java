@@ -30,5 +30,5 @@ public class CopyBook {
 
     @JsonBackReference
     @OneToMany(mappedBy = "copyBook", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Booking> bookings;
+    private List<Loan> loans;
 }
