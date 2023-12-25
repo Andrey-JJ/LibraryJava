@@ -24,16 +24,15 @@
                             <th>Издатель</th>
                             <th>Год издания</th>
                             <th></th>
-                            <!--Добавьте другие колонки, если необходимо -->
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="book : ${selectedAuthor.books}">
-                            <td th:text="${book.title}"></td>
-                            <td th:text="${book.category.name}"></td>
-                            <td th:text="${book.publisher.name}"></td>
-                            <td th:text="${book.publication_year}"></td>
-                            <td><a th:href="@{/books/details/{id}(id=${book.id})}" class="btn btn-primary">Подробнее о книге</a></td>
+                        <tr th:each="bookAuthor : ${selectedAuthor.bookAuthors}">
+                            <td th:text="${bookAuthor.book.title}"></td>
+                            <td th:text="${bookAuthor.book.category.name}"></td>
+                            <td th:text="${bookAuthor.book.publisher.name}"></td>
+                            <td th:text="${bookAuthor.book.publication_year}"></td>
+                            <td><a th:href="@{/books/details/{id}(id=${bookAuthor.book.id})}" class="btn btn-primary">Подробнее о книге</a></td>
                         </tr>
                         </tbody>
                     </table>
