@@ -43,8 +43,10 @@
         <div class="form-group mb-3">
             <label>Авторы:</label>
             <div class="scrollable-list">
-                <div th:each="author : ${authors}" class="form-check">
-                    <input type="checkbox" class="form-check-input" name="selectedAuthors" th:value="${author.id}" id="${'author_' + author.id}">
+                <div th:each="author : ${allAuthors}" class="form-check">
+                    <input type="checkbox" class="form-check-input" name="selectedAuthors"
+                           th:field="*{authors}"
+                           th:value="${author.id}" id="${'author_' + author.id}">
                     <label class="form-check-label" th:for="${'author_' + author.id}" th:text="${author.toString()}"></label>
                 </div>
             </div>

@@ -32,7 +32,7 @@
                             <td th:text="${book.category.name}"></td>
                             <td th:text="${book.publication_year}"></td>
                             <td>
-                                <span th:each="bookAuthor, iterStat : ${book.bookAuthors}">
+                                <span th:each="bookAuthor, iterStat : ${book.authors}">
                                     <span th:text="${bookAuthor.author.toString()}"></span>
                                     <span th:if="${not iterStat.last}">, </span>
                                 </span>

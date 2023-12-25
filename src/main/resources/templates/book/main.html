@@ -16,8 +16,8 @@
             <div class="col-md-3" th:each="book : ${books}">
                 <div class="card mb-4 border-0">
                     <img th:src="@{/images/{imagePath}(imagePath=${book.image})}" class="card-img-top mx-auto" style="width: 200px; height: 310px; object-fit: cover;" alt="Book Image">
-                    <div class="card-body">
-                        <h5 class="card-title text-center" th:text="${#strings.length(book.title) > 25 ? #strings.substring(book.title, 0, 25) + '...' : book.title}"></h5>
+                    <div class="card-body text-center">
+                        <h6 class="card-title" th:text="${#strings.length(book.title) > 25 ? #strings.substring(book.title, 0, 25) + '...' : book.title}"></h6>
                         <a th:href="@{/books/details/{id}(id=${book.id})}" class="btn btn-primary">Подробнее</a>
                     </div>
                 </div>

@@ -90,11 +90,11 @@ public class BookController {
 
             // Добавление связи в дополнительную таблицу bookauthor
             for (var author : authors) {
-                book.getBookAuthors().add(new BookAuthor(book, author));
+                book.getAuthors().add(new BookAuthor(book, author));
             }
 
             bookRepository.save(book);
-            bookAuthorRepository.saveAll(book.getBookAuthors());
+            bookAuthorRepository.saveAll(book.getAuthors());
         }
 
         return "redirect:/books/main";
@@ -115,7 +115,7 @@ public class BookController {
 
         model.addAttribute("selectedBook", book.get());
         model.addAttribute("categories", categories);
-        model.addAttribute("authors", authors);
+        model.addAttribute("allAuthors", authors);
         model.addAttribute("publishers", publishers);
 
         return "book/edit";
@@ -144,12 +144,11 @@ public class BookController {
 
         if (authorIds != null) {
             List<Author> authors = (List<Author>) authorRepository.findAllById(authorIds);
-            List<BookAuthor> old = (List<BookAuthor>) bookAuthorRepository.findByBookId(book.getId());
             // Удаление существующих связей с авторами
 
             // Добавление новых связей в дополнительную таблицу bookauthor
             for (var author : authors) {
-                book.getBookAuthors().add(new BookAuthor(book, author));
+                book.getAuthors().add(new BookAuthor(book, author));
             }
         }
 

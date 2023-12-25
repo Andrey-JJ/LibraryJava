@@ -27,7 +27,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="bookAuthor : ${selectedAuthor.bookAuthors}">
+                        <tr th:each="bookAuthor : ${selectedAuthor.books}">
                             <td th:text="${bookAuthor.book.title}"></td>
                             <td th:text="${bookAuthor.book.category.name}"></td>
                             <td th:text="${bookAuthor.book.publisher.name}"></td>

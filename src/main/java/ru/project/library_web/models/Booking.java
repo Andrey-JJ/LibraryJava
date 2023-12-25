@@ -16,9 +16,9 @@ public class Booking {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "copybook_id", nullable = true)
+    @JoinColumn(name = "book_id", nullable = true)
     @JsonManagedReference
-    private CopyBook copyBook;
+    private Book book;
 
     @ManyToOne
     @JoinColumn(name = "reader_id", nullable = true)

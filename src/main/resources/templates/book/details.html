@@ -18,7 +18,7 @@
             <h4 th:text="'Название: ' + ${selectedBook.title}"></h4>
             <h5>Издатель: <a th:href="@{/publishers/details/{id}(id=${selectedBook.publisher.id})}" th:text="${selectedBook.publisher.name}"></a> | <span th:text="${selectedBook.publication_year}"></span></h5>
             <h5>Авторы:
-                <span th:each="bookAuthor, iterStat : ${selectedBook.bookAuthors}">
+                <span th:each="bookAuthor, iterStat : ${selectedBook.authors}">
                     <span th:text="${bookAuthor.author.toString()}"><a th:href="@{/authors/details/{id}(id=${bookAuthor.author.id})}"></a></span>
                     <span th:if="${not iterStat.last}">, </span>
                 </span>

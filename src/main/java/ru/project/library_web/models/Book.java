@@ -58,14 +58,14 @@ public class Book {
     // В классе Book
     @JsonBackReference
     @OneToMany(mappedBy = "book")
-    private List<BookAuthor> bookAuthors;
+    private List<BookAuthor> authors;
 
-    public void setBookAuthors(List<BookAuthor> bookAuthors) {
-        this.bookAuthors = bookAuthors;
+    public void setAuthors(List<BookAuthor> authors) {
+        this.authors = authors;
     }
 
-    public List<BookAuthor> getBookAuthors(){
-        return this.bookAuthors;
+    public List<BookAuthor> getAuthors(){
+        return this.authors;
     }
 
     @JsonManagedReference
@@ -96,7 +96,7 @@ public class Book {
     }
 
     public Book() {
-        this.bookAuthors = new ArrayList<>();
+        this.authors = new ArrayList<>();
     }
 
     public Long getId() {
