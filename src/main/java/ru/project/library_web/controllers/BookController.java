@@ -25,6 +25,12 @@ public class BookController {
     private PublisherRepository publisherRepository;
     @Autowired
     private BookAuthorRepository bookAuthorRepository;
+    @Autowired
+    private ReaderRepository readerRepository;
+    @Autowired
+    private BookingRepository bookingRepository;
+    @Autowired
+    private LoanRepository loanRepository;
 
     @GetMapping("/main")
     public String getBooks(Model model){
@@ -175,5 +181,28 @@ public class BookController {
             bookRepository.deleteById(id);
         }
         return "redirect:/books/main";
+    }
+
+    @PostMapping("/booking_book/{id}")
+    public String bookingBook(@PathVariable("id") Long id, Model model){
+        Optional<Book> selectedBook = bookRepository.findById(id);
+        Optional<Reader> reader = readerRepository.findById(1L);
+        Booking booking = new Booking();
+        booking.setBook(selectedBook.get());
+        booking.setReader(reader.get());
+
+        if(!isBookAlreadyReservedByUser(booking.getReader().getId(), booking.getBook().getId())){
+            bookingRepository.save(booking);
+            model.addAttribute("message", "Книга была забронирована");
+            return "redirect:/books/details/"+id;
+        }
+        else{
+            return "redirect:/books/main";
+        }
+    }
+
+    private boolean isBookAlreadyReservedByUser(Long userId, Long bookId) {
+        Booking existingBooking = bookingRepository.findByReaderIdAndBookId(userId, bookId);
+        return existingBooking != null;
     }
 }

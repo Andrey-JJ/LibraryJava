@@ -24,4 +24,29 @@ public class Booking {
     @JoinColumn(name = "reader_id", nullable = true)
     @JsonManagedReference
     private Reader reader;
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
+    public Reader getReader() {
+        return reader;
+    }
+
+    public void setReader(Reader reader) {
+        this.reader = reader;
+    }
+
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "id=" + id +
+                ", book=" + book +
+                ", reader=" + reader +
+                '}';
+    }
 }

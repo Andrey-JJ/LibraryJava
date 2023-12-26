@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>Добавление читателя</title>
+</head>
+<body>
+<!-- Часть header -->
+<th:block th:replace="main/header :: header"></th:block>
+<!-- Часть main -->
+<main>
+    <h2 class="mt-5">Добавление читателя</h2>
+    <form action="#" th:action="@{/readers/new}" method="post" th:object="${reader}">
+        <div class="mb-3">
+            <label for="lastname" class="form-label">Фамилия:</label>
+            <input type="text" id="lastname" class="form-control" name="lastname" th:field="*{lastname}" required/>
+        </div>
+        <div class="mb-3">
+            <label for="firstname" class="form-label">Имя:</label>
+            <input type="text" id="firstname" class="form-control" name="firstname" th:field="*{firstname}" required/>
+        </div>
+        <div class="mb-3">
+            <label for="midname" class="form-label">Отчество:</label>
+            <input type="text" id="midname" class="form-control" name="midname" th:field="*{midname}"/>
+        </div>
+        <button type="submit" class="btn btn-primary">Добавить</button>
+        <a href="/readers/main" class="btn btn-secondary">Отменить</a>
+    </form>
+</main>
+<!--Часть footer-->
+<th:block th:replace="main/footer :: footer"></th:block>
+</body>
+<!--Часть scripts-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</html>

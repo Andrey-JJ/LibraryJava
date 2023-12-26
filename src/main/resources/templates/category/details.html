@@ -49,8 +49,8 @@
                 </div>
             </div>
         </div>
-        <a th:href="@{'/categories/edit/' + ${selectedCategory.id}}" class="btn btn-warning">Редактировать категорию</a>
-        <a th:href="@{'/categories/delete/' + ${selectedCategory.id}}" class="btn btn-danger">Удалить категорию</a>
+        <a th:href="@{/categories/update/{id}(id=${selectedCategory.id})}" class="btn btn-warning">Редактировать категорию</a>
+        <a th:href="@{/categories/delete/{id}(id=${selectedCategory.id})}" class="btn btn-danger">Удалить категорию</a>
     </div>
 </main>
 <!--Часть footer-->

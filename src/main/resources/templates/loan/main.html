@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>Выдача/Возврат</title>
+</head>
+<body>
+<!-- Часть header -->
+<th:block th:replace="main/header :: header"></th:block>
+<!-- Часть main -->
+<main>
+    <div class="container mt-4">
+        <h2>Список выданых книг</h2>
+        <a th:href="@{/loans/new}" class="btn btn-success mb-3">Добавить новую выдачу</a>
+        <a th:href="@{/loans/new}" class="btn btn-success mb-3">Добавить выдачу из бронирования</a>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Номер выдачи</th>
+                <th>ID экземпляра</th>
+                <th>Книга</th>
+                <th>Читатель</th>
+                <th>Дата выдачи</th>
+                <th>Дата возврата</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="loan : ${loans}">
+                <td th:text="${loan.id}"></td>
+                <td th:text="${loan.copybook.id}"></td>
+                <td th:text="${loan.copybook.book.title}"></td>
+                <td th:text="${loan.reader.toString()}"></td>
+                <td th:text="${loan.loan_date}"></td>
+                <td th:text="${loan.return_date}"></td>
+                <td>
+                    <a th:href="@{/loans/new}" class="btn btn-success mb-3">Оформить возврат</a>
+                    <a th:href="@{/loans/update/{id}(id=${loan.id})}" class="btn btn-warning btn-sm">Изменить</a>
+                    <a th:href="@{/loans/delete/{id}(id=${loan.id})}" class="btn btn-danger btn-sm">Удалить</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<!--Часть footer-->
+<th:block th:replace="main/footer :: footer"></th:block>
+<!--Часть scripts-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>

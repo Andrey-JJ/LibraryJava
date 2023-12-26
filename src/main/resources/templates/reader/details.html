@@ -16,6 +16,8 @@
             <div id="categoryInfo" class="collapse show">
                 <div class="card-body">
                     <h3>ФИО: <span th:text="${selectedReader.toString()}"></span></h3>
+                    <a th:href="@{/readers/update/{id}(id=${selectedReader.id})}" class="btn btn-warning">Редактировать читателя</a>
+                    <a th:href="@{/readers/delete/{id}(id=${selectedReader.id})}" class="btn btn-danger">Удалить читателя</a>
                     <h4>Список желаемых книг:</h4>
                     <table class="table">
                         <thead>

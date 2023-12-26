@@ -14,17 +14,17 @@ import java.util.List;
 @Table(name = "copybook")
 public class CopyBook {
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "book_id")
+    @JoinColumn(name = "book_id", nullable = true)
     @JsonBackReference
     private Book book;
 
     @ManyToOne
-    @JoinColumn(name = "status_id")
+    @JoinColumn(name = "status_id", nullable = true)
     @JsonManagedReference
     private Status status;
 

@@ -28,7 +28,9 @@
                 <h5 th:text="'Кол-во страниц: ' + ${selectedBook.volume}"></h5>
                 <div class="row mt-2">
                     <div class="col-md-6">
-                        <a href="#" class="btn btn-primary mb-2">Забронировать</a>
+                        <form th:action="@{/books/booking_book/{id}(id=${selectedBook.id})}" method="post">
+                            <button type="submit" class="btn btn-primary mb-2">Забронировать</button>
+                        </form>
                         <a href="#" class="btn btn-success mb-2">Добавить в выдачу</a>
                     </div>
                 </div>
@@ -36,6 +38,7 @@
         </div>
         <div class="row mt-2">
             <div class="col-md-6">
+                <p th:text="${message}" class="text-success"></p>
                 <a th:href="@{/books/update/{id}(id=${selectedBook.id})}" class="btn btn-warning">Редактировать книгу</a>
                 <a th:href="@{/books/delete/{id}(id=${selectedBook.id})}" class="btn btn-danger">Удалить книгу</a>
             </div>
