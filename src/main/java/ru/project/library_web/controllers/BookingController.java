@@ -4,9 +4,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.project.library_web.models.*;
 import ru.project.library_web.repositories.BookRepository;
 import ru.project.library_web.repositories.BookingRepository;
@@ -36,17 +34,26 @@ public class BookingController {
     public String addNewBooking(Model model){
         //Для выбора
         List<Book> books = (List<Book>) bookRepository.findAll();
+        List<Reader> readers = (List<Reader>) readerRepository.findAll();
         model.addAttribute("books", books);
-        return "booking/chosebook";
+        model.addAttribute("readers", readers);
+        return "booking/add";
     }
 
-    @GetMapping("/new/chosereader/{id}")
-    public String addNewBooking(@PathVariable("id") Long id, Model model){
-        Optional<Book> selectedBook = bookRepository.findById(id);
-        List<Reader> readers = (List<Reader>) readerRepository.findAll();
-        model.addAttribute("readers", readers);
-        model.addAttribute("selectedBook", selectedBook.get());
-        return "booking/chosereader";
+    @PostMapping("/new")
+    public String addNewBooking(@RequestParam("selectedBook") Long selectedBookId,
+                                @RequestParam("selectedReader") Long selectedReaderId,
+                                Model model){
+        //Для выбора
+        Optional<Book> book = bookRepository.findById(selectedBookId);
+        Optional<Reader> reader = readerRepository.findById(selectedReaderId);
+
+        Booking booking = new Booking();
+        booking.setBook(book.get());
+        booking.setReader(reader.get());
+        bookingRepository.save(booking);
+
+        return "redirect:/bookings/main";
     }
 
     @Transactional

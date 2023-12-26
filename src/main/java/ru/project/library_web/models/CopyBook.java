@@ -16,7 +16,7 @@ public class CopyBook {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = true)
@@ -31,4 +31,21 @@ public class CopyBook {
     @JsonBackReference
     @OneToMany(mappedBy = "copyBook", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Loan> loans;
+
+    @Override
+    public String toString() {
+        return "CopyBook{" +
+                "id=" + id +
+                ", book=" + book +
+                ", status=" + status +
+                '}';
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

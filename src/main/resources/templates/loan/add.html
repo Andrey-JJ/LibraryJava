@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Добавление выдачи</title>
+    <style>
+        .container {
+            margin-top: 20px;
+        }
+
+        .book-list, .reader-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+<!--Часть header-->
+<th:block th:replace="main/header :: header"></th:block>
+<!--Часть main-->
+<main>
+    <div class="container">
+        <h2>Добавление выдачи</h2>
+        <div class="row">
+            <form th:action="@{/loans/new}" method="post">
+                <!-- Столбец книг -->
+                <div class="mb-3">
+                    <h2>Список книг</h2>
+                    <div class="book-list">
+                        <div th:each="book : ${books}">
+                            <label>
+                                <input type="radio" th:name="selectedBook" th:value="${book.id}"/>
+                                <span th:text="${book.title}"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Столбец читателей -->
+                <div class="mb-3">
+                    <h2>Список читателей</h2>
+                    <div class="reader-list">
+                        <div th:each="reader : ${readers}">
+                            <label>
+                                <input type="radio" th:name="selectedReader" th:value="${reader.id}"/>
+                                <span th:text="${reader.toString()}"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="loanDate" class="form-label">Дата выдачи</label>
+                    <input type="date" class="form-control" id="loanDate" name="loanDate" required>
+                </div>
+
+                <!-- Дата возврата -->
+                <div class="col-md-6 mb-3">
+                    <label for="returnDate" class="form-label">Дата возврата</label>
+                    <input type="date" class="form-control" id="returnDate" name="returnDate">
+                </div>
+
+                <button type="submit" class="btn btn-primary mb-3">Добавить</button>
+            </form>
+
+            <!-- Сообщение об ошибке -->
+            <div th:if="${error}" class="alert alert-danger" role="alert">
+                <span th:text="${error}"></span>
+            </div>
+
+        </div>
+        <a th:href="@{/loans/main}" class="btn btn-secondary mb-3">Вернуться к выдачам</a>
+    </div>
+</main>
+<!--Часть footer-->
+<th:block th:replace="main/footer :: footer"></th:block>
+<!--Часть скриптов-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>

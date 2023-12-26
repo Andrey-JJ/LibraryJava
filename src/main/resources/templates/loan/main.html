@@ -13,7 +13,7 @@
     <div class="container mt-4">
         <h2>Список выданых книг</h2>
         <a th:href="@{/loans/new}" class="btn btn-success mb-3">Добавить новую выдачу</a>
-        <a th:href="@{/loans/new}" class="btn btn-success mb-3">Добавить выдачу из бронирования</a>
+        <a th:href="@{/loans/getreaders}" class="btn btn-success mb-3">Добавить выдачу из бронирования</a>
         <table class="table">
             <thead>
             <tr>
@@ -29,13 +29,13 @@
             <tbody>
             <tr th:each="loan : ${loans}">
                 <td th:text="${loan.id}"></td>
-                <td th:text="${loan.copybook.id}"></td>
-                <td th:text="${loan.copybook.book.title}"></td>
+                <td th:text="${loan.copyBook.id}"></td>
+                <td th:text="${loan.copyBook.book.title}"></td>
                 <td th:text="${loan.reader.toString()}"></td>
                 <td th:text="${loan.loan_date}"></td>
                 <td th:text="${loan.return_date}"></td>
                 <td>
-                    <a th:href="@{/loans/new}" class="btn btn-success mb-3">Оформить возврат</a>
+                    <a th:href="@{/loans/return_book/{id}(id=${loan.id})}" class="btn btn-success mb-3">Оформить возврат</a>
                     <a th:href="@{/loans/update/{id}(id=${loan.id})}" class="btn btn-warning btn-sm">Изменить</a>
                     <a th:href="@{/loans/delete/{id}(id=${loan.id})}" class="btn btn-danger btn-sm">Удалить</a>
                 </td>
