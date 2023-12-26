@@ -54,6 +54,30 @@ public class Loan {
         this.return_date = return_date;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public CopyBook getCopyBook() {
+        return copyBook;
+    }
+
+    public void setCopyBook(CopyBook copyBook) {
+        this.copyBook = copyBook;
+    }
+
+    public Reader getReader() {
+        return reader;
+    }
+
+    public void setReader(Reader reader) {
+        this.reader = reader;
+    }
+
     @Override
     public String toString() {
         return "Loan{" +

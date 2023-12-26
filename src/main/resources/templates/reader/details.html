@@ -18,56 +18,47 @@
                     <h3>ФИО: <span th:text="${selectedReader.toString()}"></span></h3>
                     <a th:href="@{/readers/update/{id}(id=${selectedReader.id})}" class="btn btn-warning">Редактировать читателя</a>
                     <a th:href="@{/readers/delete/{id}(id=${selectedReader.id})}" class="btn btn-danger">Удалить читателя</a>
-                    <h4>Список желаемых книг:</h4>
+                    <h4>Список забронированных(желаемых) книг:</h4>
                     <table class="table">
                         <thead>
                         <tr>
                             <th>Название</th>
+                            <th>Авторы</th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
-                        <!--<tr th:each="book : ${selectedCategory.books}">
-                            <td th:text="${book.title}"></td>
-                            <td th:text="${book.publisher.name}"></td>
-                            <td th:text="${book.publication_year}"></td>
+                        <tr th:each="booking : ${selectedReader.bookings}">
+                            <td th:text="${booking.book.title}"></td>
                             <td>
-                                <span th:each="bookAuthor, iterStat : ${book.authors}">
+                                <span th:each="bookAuthor, iterStat : ${booking.book.authors}">
                                     <span th:text="${bookAuthor.author.toString()}"></span>
                                     <span th:if="${not iterStat.last}">, </span>
                                 </span>
                             </td>
                             <td>
-                                <a th:href="@{/books/details/{id}(id=${book.id})}" class="btn btn-primary">Подробнее о книге</a>
+                                <a th:href="@{/books/details/{id}(id=${booking.book.id})}" class="btn btn-primary">Подробнее о книге</a>
                             </td>
-                        </tr>-->
+                        </tr>
                         </tbody>
                     </table>
                     <h4>Список выданных книг:</h4>
                     <table class="table">
                         <thead>
                         <tr>
+                            <th>Номер экземпляра</th>
                             <th>Название</th>
                             <th>Дата выдачи</th>
                             <th>Дата возврата</th>
-                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
-                        <!--<tr th:each="book : ${selectedCategory.books}">
-                            <td th:text="${book.title}"></td>
-                            <td th:text="${book.publisher.name}"></td>
-                            <td th:text="${book.publication_year}"></td>
-                            <td>
-                                <span th:each="bookAuthor, iterStat : ${book.authors}">
-                                    <span th:text="${bookAuthor.author.toString()}"></span>
-                                    <span th:if="${not iterStat.last}">, </span>
-                                </span>
-                            </td>
-                            <td>
-                                <a th:href="@{/books/details/{id}(id=${book.id})}" class="btn btn-primary">Подробнее о книге</a>
-                            </td>
-                        </tr>-->
+                        <tr th:each="loan : ${selectedReader.loans}">
+                            <td th:text="${loan.copyBook.id}"></td>
+                            <td th:text="${loan.copyBook.book.title}"></td>
+                            <td th:text="${loan.loan_date}"></td>
+                            <td th:text="${loan.return_date}"></td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>

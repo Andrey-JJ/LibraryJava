@@ -19,7 +19,6 @@ public class EmailController {
         } catch (MailException mailException) {
             System.out.println(mailException.getMessage());
             return new ResponseEntity<>("Невозможно отправить почту", HttpStatus.INTERNAL_SERVER_ERROR);
-
         }
         return new ResponseEntity<>("Письмо успешно отправлено.", HttpStatus.OK);
     }

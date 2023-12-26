@@ -1,7 +1,6 @@
 package ru.project.library_web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +35,7 @@ public class LoanController {
         return "loan/main";
     }
 
+    //Добавление
     @GetMapping("/new")
     public String addNewLoan(Model model){
         List<Book> books = (List<Book>) bookRepository.findAll();
@@ -55,10 +55,11 @@ public class LoanController {
                              Model model) {
         // Логика поиска первого свободного экземпляра книги (copybook) по id книги
         Optional<Book> optionalBook = bookRepository.findById(selectedBookId);
-        Optional<Status> status = statusRepository.findById(1L);
+        Optional<Status> statusNotIssued = statusRepository.findById(1L);
+        Optional<Status> statusIssued = statusRepository.findById(2L);
         if (optionalBook.isPresent()) {
             Book book = optionalBook.get();
-            List<CopyBook> availableCopies = copyBookRepository.findByBookIdAndStatusId(selectedBookId, status.get().getId());
+            List<CopyBook> availableCopies = copyBookRepository.findByBookIdAndStatusId(selectedBookId, statusNotIssued.get().getId());
 
             if (!availableCopies.isEmpty()) {
                 // Найден доступный экземпляр, создаем объект Loan
@@ -72,6 +73,9 @@ public class LoanController {
 
                 loan.setLoan_date(loanDate);
                 loan.setReturn_date(returnDate);
+
+                selectedCopyBook.setStatus(statusIssued.get());
+                copyBookRepository.save(selectedCopyBook);
 
                 loanRepository.save(loan);
 
@@ -90,6 +94,7 @@ public class LoanController {
         return "redirect:/loans/add";
     }
 
+    //Удаление
     @GetMapping("/delete/{id}")
     public String deleteLoan(@PathVariable("id") Long id){
         Optional<Loan> loan = loanRepository.findById(id);
@@ -99,6 +104,7 @@ public class LoanController {
         return "redirect:/loans/main";
     }
 
+    //Добавление из брони
     @GetMapping("/getreaders")
     public String getReaders(Model model){
         List<Reader> readers = (List<Reader>) readerRepository.findAll();
@@ -138,8 +144,9 @@ public class LoanController {
                               @RequestParam("loanDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date loanDate,
                               @RequestParam(name = "returnDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date returnDate,
                               Model model) {
-        Optional<Status> status = statusRepository.findById(1L);
-        List<CopyBook> availableCopies = copyBookRepository.findByBookIdAndStatusId(bookId, status.get().getId());
+        Optional<Status> statusNotIssued = statusRepository.findById(1L);
+        Optional<Status> statusIssued = statusRepository.findById(2L);
+        List<CopyBook> availableCopies = copyBookRepository.findByBookIdAndStatusId(bookId, statusNotIssued.get().getId());
         if (!availableCopies.isEmpty()) {
             // Найден доступный экземпляр, создаем объект Loan
             CopyBook selectedCopyBook = availableCopies.get(0);
@@ -160,6 +167,9 @@ public class LoanController {
                 booking.setBook(book.get());
                 bookingRepository.delete(booking);
             }
+
+            selectedCopyBook.setStatus(statusIssued.get());
+            copyBookRepository.save(selectedCopyBook);
 
             loanRepository.save(loan);
 

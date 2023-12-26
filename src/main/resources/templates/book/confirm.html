@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <title>Выдача из книги</title>
+</head>
+<body>
+<!-- Часть header -->
+<th:block th:replace="main/header :: header"></th:block>
+<!-- Часть main -->
+<main>
+  <div class="container mt-4">
+    <h2 class="mb-3">Подтверждение данных</h2>
+    <div class="mb-3">
+      <h4>Информация о читателе:</h4>
+      <p th:text="${reader.toString()}"></p>
+    </div>
+
+    <div class="mb-3">
+      <h4>Информация о книге:</h4>
+      <p th:text="'Название: ' + ${book.title}"></p>
+      <p>Издатель: <a th:text="${book.publisher.name}"></a> | <span th:text="${book.publication_year}"></span></p>
+      <p>Авторы:
+        <span th:each="bookAuthor, iterStat : ${book.authors}">
+                    <a th:text="${bookAuthor.author.toString()}"></a>
+                    <span th:if="${not iterStat.last}">, </span>
+                </span>
+      </p>
+      <p>Категория: <a th:text="${book.category.name}"></a></p>
+      <p th:text="'Кол-во страниц: ' + ${book.volume}"></p>
+    </div>
+
+    <form th:action="@{/books/loan_confirm}" method="post">
+      <input type="hidden" name="readerId" th:value="${reader.id}" />
+      <input type="hidden" name="bookId" th:value="${book.id}" />
+
+      <div class="col-md-6 mb-3">
+        <label for="loanDate" class="form-label">Дата выдачи</label>
+        <input type="date" class="form-control" id="loanDate" name="loanDate" required>
+      </div>
+
+      <!-- Дата возврата -->
+      <div class="col-md-6 mb-3">
+        <label for="returnDate" class="form-label">Дата возврата</label>
+        <input type="date" class="form-control" id="returnDate" name="returnDate">
+      </div>
+
+      <button type="submit" class="btn btn-info mt-3">Подтвердить</button>
+    </form>
+    <a th:href="@{/books/details/{id}(id=${book.id})}" class="btn btn-primary mt-3">Отмена выдачи</a>
+  </div>
+</main>
+<!--Часть footer-->
+<th:block th:replace="main/footer :: footer"></th:block>
+<!--Часть scripts-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>

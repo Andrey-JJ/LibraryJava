@@ -31,18 +31,39 @@
                         <form th:action="@{/books/booking_book/{id}(id=${selectedBook.id})}" method="post">
                             <button type="submit" class="btn btn-primary mb-2">Забронировать</button>
                         </form>
-                        <a href="#" class="btn btn-success mb-2">Добавить в выдачу</a>
+                        <a th:href="@{/books/loan_book/{id}(id=${selectedBook.id})}" class="btn btn-success mb-2">Добавить в выдачу</a>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row mt-2">
+        <div class="row mt-3">
             <div class="col-md-6">
                 <p th:text="${message}" class="text-success"></p>
                 <a th:href="@{/books/update/{id}(id=${selectedBook.id})}" class="btn btn-warning">Редактировать книгу</a>
                 <a th:href="@{/books/delete/{id}(id=${selectedBook.id})}" class="btn btn-danger">Удалить книгу</a>
             </div>
         </div>
+        <a th:href="@{/books/add-copies/{id}(id=${selectedBook.id})}" class="btn btn-success mt-3">Добавить экземпляры</a>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID экземпляра</th>
+                <th>Статус</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="copyBook : ${selectedBook.copyBooks}">
+                <td th:text="${copyBook.id}"></td>
+                <td th:text="${copyBook.status.name}"></td>
+                <td>
+                    <a th:href="@{/copybooks/details/{id}(id=${copyBook.id})}" class="btn btn-info btn-sm">Подробнее</a>
+                    <a th:href="@{/copybooks/update/{id}(id=${copyBook.id})}" class="btn btn-warning btn-sm">Изменить</a>
+                    <a th:href="@{/copybooks/delete/{id}(id=${copyBook.id})}" class="btn btn-danger btn-sm">Удалить</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </main>
 <!--Часть footer-->
