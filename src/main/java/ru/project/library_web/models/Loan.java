@@ -38,6 +38,19 @@ public class Loan {
     @Column(name = "return_date", nullable = true)
     private Date return_date;
 
+    @ManyToOne
+    @JoinColumn(name = "loan_status", nullable = false)
+    @JsonBackReference
+    private Status loan_status;
+
+    public Status getLoan_status() {
+        return loan_status;
+    }
+
+    public void setLoan_status(Status loan_status) {
+        this.loan_status = loan_status;
+    }
+
     public Date getLoan_date() {
         return loan_date;
     }

@@ -50,6 +50,7 @@
                             <th>Название</th>
                             <th>Дата выдачи</th>
                             <th>Дата возврата</th>
+                            <th>Статус выдачи</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -58,6 +59,7 @@
                             <td th:text="${loan.copyBook.book.title}"></td>
                             <td th:text="${loan.loan_date}"></td>
                             <td th:text="${loan.return_date}"></td>
+                            <td th:text="${loan.loan_status.name}"></td>
                         </tr>
                         </tbody>
                     </table>

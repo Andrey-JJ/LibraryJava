@@ -55,8 +55,12 @@ public class LoanController {
                              Model model) {
         // Логика поиска первого свободного экземпляра книги (copybook) по id книги
         Optional<Book> optionalBook = bookRepository.findById(selectedBookId);
+        //Статус не выдана
         Optional<Status> statusNotIssued = statusRepository.findById(1L);
+        //Статус выдана
         Optional<Status> statusIssued = statusRepository.findById(2L);
+        //Статус не возращена
+        Optional<Status> statusNotReturn = statusRepository.findById(6L);
         if (optionalBook.isPresent()) {
             Book book = optionalBook.get();
             List<CopyBook> availableCopies = copyBookRepository.findByBookIdAndStatusId(selectedBookId, statusNotIssued.get().getId());
@@ -73,6 +77,8 @@ public class LoanController {
 
                 loan.setLoan_date(loanDate);
                 loan.setReturn_date(returnDate);
+
+                loan.setLoan_status(statusNotReturn.get());
 
                 selectedCopyBook.setStatus(statusIssued.get());
                 copyBookRepository.save(selectedCopyBook);
@@ -144,8 +150,12 @@ public class LoanController {
                               @RequestParam("loanDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date loanDate,
                               @RequestParam(name = "returnDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date returnDate,
                               Model model) {
+        //Статус не выдана
         Optional<Status> statusNotIssued = statusRepository.findById(1L);
+        //Статус выдана
         Optional<Status> statusIssued = statusRepository.findById(2L);
+        //Статус не возращена
+        Optional<Status> statusNotReturn = statusRepository.findById(6L);
         List<CopyBook> availableCopies = copyBookRepository.findByBookIdAndStatusId(bookId, statusNotIssued.get().getId());
         if (!availableCopies.isEmpty()) {
             // Найден доступный экземпляр, создаем объект Loan
@@ -160,6 +170,8 @@ public class LoanController {
 
             loan.setLoan_date(loanDate);
             loan.setReturn_date(returnDate);
+
+            loan.setLoan_status(statusNotReturn.get());
 
             if(isBookAlreadyReservedByUser(bookId, readerId)){
                 Booking booking = new Booking();
@@ -186,5 +198,43 @@ public class LoanController {
     private boolean isBookAlreadyReservedByUser(Long userId, Long bookId) {
         Booking existingBooking = bookingRepository.findByReaderIdAndBookId(userId, bookId);
         return existingBooking != null;
+    }
+
+    @GetMapping("/return_book/{id}")
+    public String returnBookForm(@PathVariable("id") Long loanId, Model model) {
+        Optional<Loan> loanOptional = loanRepository.findById(loanId);
+
+        List<Status> statuses = (List<Status>) statusRepository.findAll();
+        statuses.removeIf(status -> !(status.getId() == 3 || status.getId() == 4 || status.getId() == 5));
+
+        if (loanOptional.isPresent()) {
+            model.addAttribute("loan", loanOptional.get());
+            model.addAttribute("statuses", statuses);
+            return "loan/return_form";
+        } else {
+            // Обработайте случай, если выдача не найдена
+            return "redirect:/error";
+        }
+    }
+
+    @PostMapping("/return_book")
+    public String returnBook(@ModelAttribute("loan") Loan loan, @RequestParam("selectedStatus") Long selectedStatus) {
+        Optional<Loan> existingLoan = loanRepository.findById(loan.getId());
+        Optional<Status> status = statusRepository.findById(selectedStatus);
+
+        if (existingLoan.isPresent()) {
+            Loan updatedLoan = existingLoan.get();
+            updatedLoan.setReturn_date(loan.getReturn_date());
+            updatedLoan.setLoan_status(status.get());
+            loanRepository.save(updatedLoan);
+
+            Optional<Status> statusNotIssued = statusRepository.findById(1L);
+            Optional<CopyBook> optinalCopyBook = copyBookRepository.findById(updatedLoan.getCopyBook().getId());
+            CopyBook copyBook = optinalCopyBook.get();
+            copyBook.setStatus(statusNotIssued.get());
+            copyBookRepository.save(copyBook);
+        }
+
+        return "redirect:/loans/main";
     }
 }

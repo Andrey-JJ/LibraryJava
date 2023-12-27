@@ -23,6 +23,7 @@
                 <th>Читатель</th>
                 <th>Дата выдачи</th>
                 <th>Дата возврата</th>
+                <th>Статус выдачи</th>
                 <th></th>
             </tr>
             </thead>
@@ -34,6 +35,7 @@
                 <td th:text="${loan.reader.toString()}"></td>
                 <td th:text="${loan.loan_date}"></td>
                 <td th:text="${loan.return_date}"></td>
+                <td th:text="${loan.loan_status.name}"></td>
                 <td>
                     <a th:href="@{/loans/return_book/{id}(id=${loan.id})}" class="btn btn-success mb-3">Оформить возврат</a>
                     <a th:href="@{/loans/update/{id}(id=${loan.id})}" class="btn btn-warning btn-sm">Изменить</a>
